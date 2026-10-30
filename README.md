@@ -18,19 +18,41 @@ The engine identifies smart money cycles based on candle morphology, volatility 
 
 ```mermaid
 flowchart LR
-    A["Interactive Brokers (TWS / Gateway)<br/>Port 7497"] -->|Live 1H EUR/USD Bars| B["FastAPI Backend<br/>(src/api/main.py)"]
-    B -->|Bar Stream| C["Feature Engineering<br/>(src/features/feature_eng.py)"]
-    C -->|Regime Features| D["XGBoost Model<br/>(src/models/trained/xgboost)"]
-    D -->|Target Prediction| E["Phase Classification Logic<br/>(Accumulation / Manipulation / Distribution)"]
-    E -->|JSON State /state| B
-    B -->|HTTP Polling (Port 8000)| F["Streamlit Dashboard<br/>(src/dashboard/app.py)"]
+    A["Interactive Brokers TWS / Gateway<br/>Port 7497"] -->|"Live 1H EUR/USD Bars"| B["FastAPI Backend<br/>src/api/main.py"]
+    B -->|"Bar Stream"| C["Feature Engineering<br/>src/features/feature_eng.py"]
+    C -->|"Regime Features"| D["XGBoost Model<br/>src/models/trained/xgboost"]
+    D -->|"Target Prediction"| E["Phase Classification Logic<br/>Accumulation / Manipulation / Distribution"]
+    E -->|"JSON State /state"| B
+    B -->|"HTTP Polling Port 8000"| F["Streamlit Dashboard<br/>src/dashboard/app.py"]
 ```
 
 ---
 
 ## Live System Output
 
-### 1. Backend REST API (`GET http://127.0.0.1:8000/state`)
+### 1. Streamlit Browser Interface (`http://127.0.0.1:8501`)
+
+The web frontend renders live quantitative monitoring cards, phase classification badges, regime metrics, and classification history:
+
+![Streamlit Interface](docs/images/dashboard_preview.png)
+
+#### Real-Time Dashboard Components:
+- **Top Metrics**:
+  - `IBKR Socket`: `CONNECTED`
+  - `EUR/USD Spot`: `1.11950`
+  - `Last 1H Bar`: `2026-10-30 08:00:00-04:00`
+  - `Model Prediction`: `0.6970`
+- **Institutional Phase Banner**:
+  - `Phase: ACCUMULATION (Chop / Low Liquidity)`
+  - *Caption: Market is coiling. Narrow candle range and contracting volatility.*
+- **Current 1H Regime Features**:
+  - Displays dynamic cards for `ret_1`, `ret_4`, `ret_16`, `volatility_16`, `volatility_64`, `range_pct`, `body_pct`, and `abs_return`.
+- **Classification History Table**:
+  - Tabular log tracking recent 1H bar close evaluations, price, classified phase, target score, and candle metrics.
+
+---
+
+### 2. Backend REST API (`GET http://127.0.0.1:8000/state`)
 
 Live JSON snapshot returned by the running engine:
 
@@ -65,22 +87,6 @@ Live JSON snapshot returned by the running engine:
 }
 ```
 
-### 2. Streamlit Interface (`http://127.0.0.1:8501`)
-
-The frontend renders real-time quantitative monitoring cards:
-- **Top Metrics**:
-  - `IBKR Socket`: `CONNECTED`
-  - `EUR/USD Spot`: `1.11950`
-  - `Last 1H Bar`: `2026-10-30 08:00:00-04:00`
-  - `Model Prediction`: `0.6970`
-- **Institutional Phase Banner**:
-  - `Phase: ACCUMULATION (Chop / Low Liquidity)`
-  - *Caption: Market is coiling. Narrow candle range and contracting volatility.*
-- **Current 1H Regime Features**:
-  - Displays dynamic cards for `ret_1`, `ret_4`, `ret_16`, `volatility_16`, `volatility_64`, `range_pct`, `body_pct`, and `abs_return`.
-- **Classification History Table**:
-  - Tabular log tracking recent 1H bar close evaluations, price, classified phase, target score, and candle metrics.
-
 ---
 
 ## Repository Structure
@@ -88,19 +94,22 @@ The frontend renders real-time quantitative monitoring cards:
 ```text
 ├── .gitignore
 ├── README.md
+├── docs/
+│   └── images/
+│       └── dashboard_preview.png  # Streamlit frontend preview
 └── src/
     ├── requirements-full.txt
     ├── api/
     │   ├── __init__.py
-    │   └── main.py              # FastAPI server & IBKR event loop
+    │   └── main.py                # FastAPI server & IBKR event loop
     ├── dashboard/
-    │   └── app.py               # Streamlit real-time monitoring interface
+    │   └── app.py                 # Streamlit real-time monitoring interface
     ├── features/
-    │   └── feature_eng.py       # Rolling volatility, returns & morphology engineering
+    │   └── feature_eng.py         # Rolling volatility, returns & morphology engineering
     └── models/
-        ├── xg.py                # Model training pipeline
+        ├── xg.py                  # Model training pipeline
         └── trained/
-            └── xgboost/         # Serialized model weights (*.pkl)
+            └── xgboost/           # Serialized model weights (*.pkl)
 ```
 
 ---
