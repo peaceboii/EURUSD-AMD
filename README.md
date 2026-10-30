@@ -1,20 +1,20 @@
-# 📊 EUR/USD Institutional Market Phase Engine (AMD)
+# EUR/USD Institutional Market Phase Engine (AMD)
 
 An end-to-end Machine Learning and quantitative trading system for real-time institutional market phase classification on **EUR/USD**. The system integrates live 1-hour bar streaming from **Interactive Brokers (IBKR)**, on-the-fly feature engineering, a trained **XGBoost Random Forest** regime model, a **FastAPI** backend service, and a real-time **Streamlit** dashboard.
 
 ---
 
-## 🏛️ Concept: AMD (Accumulation - Manipulation - Distribution)
+## Concept: AMD (Accumulation - Manipulation - Distribution)
 
 The engine identifies smart money cycles based on candle morphology, volatility regimes, and machine learning predictions:
 
-- **🔵 Accumulation (Chop / Low Liquidity)**: Narrow range compression, low volatility, institutional positioning.
-- **🟠 Manipulation (Liquidity Sweep / Fakeout)**: High wick ratios rejecting key levels, sweeping stop orders.
-- **🟢 Distribution (Institutional Expansion)**: High displacement, wide body percentages, expanded relative volume and volatility.
+- **Accumulation (Chop / Low Liquidity)**: Narrow range compression, low volatility, institutional positioning.
+- **Manipulation (Liquidity Sweep / Fakeout)**: High wick ratios rejecting key levels, sweeping stop orders.
+- **Distribution (Institutional Expansion)**: High displacement, wide body percentages, expanded relative volume and volatility.
 
 ---
 
-## ⚙️ Architecture & Data Flow
+## Architecture & Data Flow
 
 ```mermaid
 flowchart LR
@@ -28,7 +28,7 @@ flowchart LR
 
 ---
 
-## 🚀 Live System Output
+## Live System Output
 
 ### 1. Backend REST API (`GET http://127.0.0.1:8000/state`)
 
@@ -69,12 +69,12 @@ Live JSON snapshot returned by the running engine:
 
 The frontend renders real-time quantitative monitoring cards:
 - **Top Metrics**:
-  - `IBKR Socket`: `CONNECTED` (Green)
+  - `IBKR Socket`: `CONNECTED`
   - `EUR/USD Spot`: `1.11950`
   - `Last 1H Bar`: `2026-10-30 08:00:00-04:00`
   - `Model Prediction`: `0.6970`
 - **Institutional Phase Banner**:
-  - `🔵 Phase: ACCUMULATION (Chop / Low Liquidity)`
+  - `Phase: ACCUMULATION (Chop / Low Liquidity)`
   - *Caption: Market is coiling. Narrow candle range and contracting volatility.*
 - **Current 1H Regime Features**:
   - Displays dynamic cards for `ret_1`, `ret_4`, `ret_16`, `volatility_16`, `volatility_64`, `range_pct`, `body_pct`, and `abs_return`.
@@ -83,7 +83,7 @@ The frontend renders real-time quantitative monitoring cards:
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```text
 ├── .gitignore
@@ -105,7 +105,7 @@ The frontend renders real-time quantitative monitoring cards:
 
 ---
 
-## 🛠️ Getting Started
+## Getting Started
 
 ### 1. Prerequisites
 - Python 3.10+
