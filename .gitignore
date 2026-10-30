@@ -1,0 +1,55 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.so
+.pytest_cache/
+
+# Virtual Environments
+market_ml/
+.venv/
+venv/
+env/
+ENV/
+
+# Data & Features (Never push large datasets or raw tick data)
+feats_data/
+**/feats_data/
+data/raw_data/*.csv
+*.csv
+*.parquet
+*.feather
+*.h5
+
+# Model weights & Serialized artifacts (Save to cloud/storage instead)
+*.joblib
+*.bin
+*.pkl
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# IBKR & runtime logs
+*.log
+ib_insync/
+
+# Local Testing, Debug Scripts & Notebooks
+debug_ib.py
+**/debug_ib.py
+time.py
+**/time.py
+gap.py
+**/gap.py
+**/raw.py
+notebooks/
+*.ipynb
+.ipynb_checkpoints/
